@@ -52,7 +52,14 @@ jobs:
 
       # Snyk Code (SAST)
       - name: Snyk Code test
-        run: snyk code test --sarif > snyk-code.sarif 2> snyk-code.log || true
+        run: |
+          snyk code test --sarif > snyk-code.sarif 2> snyk-code.log || true
+          echo "==== Snyk Code stderr log ===="
+          cat snyk-code.log
+          echo "==== End of Snyk Code stderr log ===="
+
+      - name: Show snyk-code.sarif preview
+        run: head -20 snyk-code.sarif || echo "No SARIF file generated"
 
       - name: Validate SARIF JSON
         run: python -c "import json; json.load(open('snyk-code.sarif'))"
