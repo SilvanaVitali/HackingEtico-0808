@@ -62,13 +62,13 @@ jobs:
       - name: Snyk IaC test and report
         run: snyk iac test --report || true
 
-      # Docker build
-      - name: Build a Docker image
-        run: docker build -t your/image-to-test .
+      # # Docker build
+      # - name: Build a Docker image
+      #   run: docker build -t your/image-to-test .
 
-      # Snyk Container
-      - name: Snyk Container monitor
-        run: snyk container monitor your/image-to-test --file=Dockerfile || true
+      # # Snyk Container
+      # - name: Snyk Container monitor
+      #   run: snyk container monitor your/image-to-test --file=Dockerfile || true
 
       # Upload SARIF to GitHub Security
       - name: Upload result to GitHub Code Scanning
