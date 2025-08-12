@@ -63,10 +63,8 @@ jobs:
       - name: Snyk Code test (generate SARIF)
         run: |
           snyk code test --sarif > snyk-code.sarif 2> snyk-code.log || true
-          echo "=== Contenido de snyk-code.log ==="
+          echo "=== Contenido completo de snyk-code.log ==="
           cat snyk-code.log || echo "(Archivo vacío)"
-          echo "=== Preview de snyk-code.sarif ==="
-          head -20 snyk-code.sarif || echo "(Archivo no generado)"
 
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v3
