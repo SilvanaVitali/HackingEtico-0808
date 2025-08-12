@@ -50,7 +50,8 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           DEBUG: "snyk*"
-        run: snyk code test --sarif > snyk-code.sarif 2> snyk-code.err || true
+        run: |
+         snyk code test --sarif > snyk-code.sarif 2> snyk-code.err || true
 
       # Snyk Code (SAST)
       - name: Snyk Code test (plain output, for debug)
