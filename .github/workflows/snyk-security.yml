@@ -68,11 +68,11 @@ jobs:
           echo "=== Preview de snyk-code.sarif ==="
           head -20 snyk-code.sarif || echo "(Archivo no generado)"
 
-      - name: Upload SARIF if exists
-        if: ${{ always() && (exists('snyk-code.sarif')) }}
+      - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk-code.sarif
+        continue-on-error: true
 
       # - name: Show snyk-code.sarif preview
       #   run: head -20 snyk-code.sarif || echo "No SARIF file generated"
