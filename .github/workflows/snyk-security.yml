@@ -51,7 +51,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       # Snyk Code (SAST)
-      - name: Snyk Code test
+      - name: Snyk Code test (plain output, for debug)
         run: snyk code test || true
         # run: |
         #   snyk code test --sarif > snyk-code.sarif 2> snyk-code.log || true
@@ -60,11 +60,25 @@ jobs:
         #   echo "=== Contenido de snyk-code.log ==="
         #   cat snyk-code.log || echo "(Archivo vacío)"
 
-      - name: Show snyk-code.sarif preview
-        run: head -20 snyk-code.sarif || echo "No SARIF file generated"
+      - name: Snyk Code test (generate SARIF)
+        run: |
+          snyk code test --sarif > snyk-code.sarif 2> snyk-code.log || true
+          echo "=== Contenido de snyk-code.log ==="
+          cat snyk-code.log || echo "(Archivo vacío)"
+          echo "=== Preview de snyk-code.sarif ==="
+          head -20 snyk-code.sarif || echo "(Archivo no generado)"
 
-      - name: Validate SARIF JSON
-        run: python -c "import json; json.load(open('snyk-code.sarif'))"
+      - name: Upload SARIF if exists
+        if: ${{ always() && (exists('snyk-code.sarif')) }}
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk-code.sarif
+
+      # - name: Show snyk-code.sarif preview
+      #   run: head -20 snyk-code.sarif || echo "No SARIF file generated"
+
+      # - name: Validate SARIF JSON
+      #   run: python -c "import json; json.load(open('snyk-code.sarif'))"
 
       # Snyk Open Source (SCA)
       - name: Snyk Open Source monitor
