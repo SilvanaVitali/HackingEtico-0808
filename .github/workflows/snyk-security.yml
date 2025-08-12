@@ -52,12 +52,13 @@ jobs:
 
       # Snyk Code (SAST)
       - name: Snyk Code test
-        run: |
-          snyk code test --sarif > snyk-code.sarif 2> snyk-code.log || true
-          echo "=== Contenido de snyk-code.sarif ==="
-          cat snyk-code.sarif || echo "(Archivo vacío)"
-          echo "=== Contenido de snyk-code.log ==="
-          cat snyk-code.log || echo "(Archivo vacío)"
+        run: snyk code test || true
+        # run: |
+        #   snyk code test --sarif > snyk-code.sarif 2> snyk-code.log || true
+        #   echo "=== Contenido de snyk-code.sarif ==="
+        #   cat snyk-code.sarif || echo "(Archivo vacío)"
+        #   echo "=== Contenido de snyk-code.log ==="
+        #   cat snyk-code.log || echo "(Archivo vacío)"
 
       - name: Show snyk-code.sarif preview
         run: head -20 snyk-code.sarif || echo "No SARIF file generated"
